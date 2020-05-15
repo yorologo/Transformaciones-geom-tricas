@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graficación</title>
+
+    <!-- JSXGraph -->
+    <link rel="stylesheet" type="text/css" href="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css" />
+    <script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        #principal {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body class="text-center bg-dark text-white">
+    <div class="d-flex h-100 p-3 mx-auto flex-column" id="principal">
+        <header class="mb-auto">
+            <div>
+                <h2>Graficación</h2>
+            </div>
+        </header>
+
+        <div class="row justify-content-around container-fluid align-items-center my-3 p-3 pl-5 h-100">
+            <div id="jxgbox" class="jxgbox h-100 w-100 ml-3 mr-2"></div>
+        </div>
+        <div class="row justify-content-around align-items-center mb-5">
+            <div class="col-5">
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-warning dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Transformaciones
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <button type="button" class="btn btn-info btn-block" onclick="m1Function1()" data-toggle="modal"
+                            data-target="#dataInsert">
+                            Escalamiento
+                        </button>
+                        <button type="button" class="btn btn-info btn-block" onclick="m1Function2()" data-toggle="modal"
+                            data-target="#dataInsert">
+                            Traslación
+                        </button>
+                        <button type="button" class="btn btn-info btn-block" onclick="m1Function3()" data-toggle="modal"
+                            data-target="#dataInsert">
+                            Rotación
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="mt-auto">
+            <div>
+                <P>Josue Esaud Gomez Gonzalez - No.Control 16011064</P>
+            </div>
+        </footer>
+    </div>
+
+    <input id="hidenValue1" name="hidenValue1" type="hidden" value="0">
+    <input id="hidenValue2" name="hidenValue2" type="hidden" value="0">
+    <input id="hidenValue3" name="hidenValue3" type="hidden" value="0">
+
+    <!-- Modal Data Insert-->
+    <div class="modal fade text-dark" id="dataInsert" tabi="-1" role="dialog" aria-labelledby="dataInsert"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dataInsert">Inserta los datos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody1">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="m2function1()" data-dismiss="modal"
+                        data-toggle="modal" data-target="#matrix">Calcular</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Matrix -->
+    <div class="modal fade text-dark" id="matrix" tabi="-1" role="dialog" aria-labelledby="matrix" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="matrix">Comprueba los cambios</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody2">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="m2function2()"
+                        data-dismiss="modal">Aplicar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    var board = JXG.JSXGraph.initBoard('jxgbox', {
+            axis: true,
+            boundingbox: [-7, 4, 7, -4]
+        }),
+        points = [],
+        i, line
+
+    points.push(board.create('point', [function () {
+        return 0;
+    }, function () {
+        return 0;
+    }], {
+        face: 'x',
+        size: 4,
+        withLabel: false
+    }))
+
+    points.push(board.create('point', [(Math.random() - 0.5) * 7, (Math.random() - 0.5) * 7], {
+        withLabel: false
+    }))
+
+    var line = board.create('line', points, {
+        straightFirst: false,
+        straightLast: false,
+        strokeWidth: 2
+    })
+
+    function m1Function1() {
+        document.getElementById("hidenValue3").value = 1
+        document.getElementById("modalBody1").innerHTML = '<div class=\"form-group row\">' +
+            '<label for=\"dataType\" class=\"col-sm-2 col-form-label\">Escala</label>' +
+            '<div class=\"col-sm-10\">' +
+            '<input class=\"form-control\" id=\"input1\" type=\"number\" placeholder=\"Inserta el valor\">' +
+            '</div>' +
+            '</div>'
+    }
+
+    function m1Function2() {
+        document.getElementById("hidenValue3").value = 2
+        document.getElementById("modalBody1").innerHTML = '<div class=\"form-group row\">' +
+            '<label for=\"dataType\" class=\"col-sm-4 col-form-label\">Adición X</label>' +
+            '<div class=\"col-sm-8\">' +
+            '<input class=\"form-control\" id=\"input1\" type=\"number\" placeholder=\"Inserta el valor\">' +
+            '</div>' +
+            '</div>' +
+            '<div class=\"form-group row\">' +
+            '<label for=\"dataType\" class=\"col-sm-4 col-form-label\">Adición Y</label>' +
+            '<div class=\"col-sm-8\">' +
+            '<input class=\"form-control\" id=\"input2\" type=\"number\" placeholder=\"Inserta el valor\">' +
+            '</div>' +
+            '</div>'
+    }
+
+    function m1Function3() {
+        document.getElementById("hidenValue3").value = 3
+        document.getElementById("modalBody1").innerHTML = '<div class=\"form-group row\">' +
+            '<label for=\"dataType\" class=\"col-sm-6 col-form-label\">Grados de Rotacion</label>' +
+            '<div class=\"col-sm-6\">' +
+            '<input class=\"form-control\" id=\"input1\" type=\"number\" placeholder=\"0\">' +
+            '</div>' +
+            '</div>'
+    }
+
+    function m2function1() {
+        var opc = parseInt(document.getElementById("hidenValue3").value)
+
+        var pX = parseFloat(points[1].X()).toFixed(2)
+        var pY = parseFloat(points[1].Y()).toFixed(2)
+
+        var value1
+        var value2
+
+        var matrix1
+        var matrix2
+        var matrix3
+
+        switch (opc) {
+            case 1:
+                value1 = (document.getElementById("input1").value) ? parseFloat(document.getElementById("input1")
+                    .value) : 0
+                matrix1 = [
+                    [value1, 0],
+                    [0, value1]
+                ]
+                break;
+            case 2:
+                value1 = (document.getElementById("input1").value) ? parseFloat(document.getElementById("input1")
+                    .value) : 0
+                value2 = (document.getElementById("input1").value) ? parseFloat(document.getElementById("input2")
+                    .value) : 0
+                matrix1 = [
+                    [1, 0, value1],
+                    [0, 1, value2],
+                    [0, 0, 1]
+                ]
+
+                break;
+            case 3:
+                value1 = (document.getElementById("input1").value) ? parseFloat(document.getElementById("input1")
+                    .value) * Math.PI / 180 : 0
+                matrix1 = [
+                    [Math.cos(value1), -1 * Math.sin(value1), 0],
+                    [Math.sin(value1), Math.cos(value1), 0],
+                    [0, 0, 1]
+                ]
+
+                break;
+
+            default:
+                break;
+        }
+
+        switch (opc) {
+            case 1:
+                matrix2 = [
+                    [pX],
+                    [pY]
+                ]
+                break;
+            case 2:
+            case 3:
+                matrix2 = [
+                    [pX],
+                    [pY],
+                    [1]
+                ]
+                break;
+
+            default:
+                break;
+        }
+
+        matrix3 = multiplyMatrix(matrix1, matrix2)
+        var content = '<div class=\"row justify-content-around\">' +
+            '<div class=\"col-sm'
+        if (opc == 1) content += '-3'
+        content += '\">' +
+            matrixToTable(matrix1) +
+            '</div>' +
+            '<div class="col-sm-1 my-auto p-3"><span class="badge badge-pill badge-dark">' +
+            '<div class="m-1"><h5>•</h5></div>' +
+            '</span></div>' +
+            '<div class="col-sm-2">' +
+            matrixToTable(matrix2) +
+            '</div>' +
+            '<div class=\"col-sm-1 my-auto p-3\"><span class=\"badge badge-pill badge-dark\">' +
+            '<div class=\"m-1\"><h5>=</h5></div>' +
+            '</span></div>' +
+            '<div class=\"col-sm-2\">' +
+            matrixToTable(matrix3) +
+            '</div>' +
+            '</div>'
+        document.getElementById("modalBody2").innerHTML = content
+
+        document.getElementById("hidenValue1").value = matrix3[0][0];
+        document.getElementById("hidenValue2").value = matrix3[1][0];
+    }
+
+    function m2function2() {
+        var x = parseFloat(document.getElementById("hidenValue1").value)
+        var y = parseFloat(document.getElementById("hidenValue2").value)
+        console.log(x + " " + y)
+        points[1].setPositionDirectly(JXG.COORDS_BY_USER, [x, y])
+        board.update()
+    }
+
+    function matrixToTable(matrix) {
+        var content = '<table class=\"table table-bordered\">'
+        for (let i = 0; i < matrix.length; i++) {
+            content += '<tr>'
+            for (let j = 0; j < matrix[i].length; j++) {
+                content += '<td><span class=\"badge badge-pill badge-light\">'
+                content += parseFloat(matrix[i][j]).toFixed(2)
+                content += '</span></td>'
+            }
+            content += '</tr>'
+        }
+        content += '</table>'
+
+        return content
+    }
+
+    function multiplyMatrix(m1, m2) {
+        if (m1[0].length == m2.length) {
+            var mr = [];
+
+            for (let i = 0; i < m1.length; i++) {
+                mr.push([])
+                for (let j = 0; j < m2[0].length; j++) {
+                    mr[i].push(0);
+                    for (let k = 0; k < m1[0].length; k++)
+                        mr[i][j] += m1[i][k] * m2[k][j]
+                }
+            }
+            return mr;
+        }
+    }
+</script>
+
+</html>
